@@ -4,8 +4,8 @@
       <div class="main-container">
         <div class="title">
           <h1>XX Days Left Till 2021!!</h1>
-          <p>00:00:00:00</p>
-          <p>December xx xx</p>
+          <p>{{ displayDays }}: {{displayHours}} : {{displayMinutes}} : {{displaySeconds}}</p>
+          <p>{{dateBuilder()}} </p>
           </div>
           <div class="input-container">
             <h3>Enter your new year's resolution</h3>
@@ -27,11 +27,29 @@
 
 export default {
 name: 'App',
-data(){
-  return {
-    msg: ''
+data: ()=>({
+  displayDays:0,
+  displayHours: 0,
+  displayMinutes:0,
+  displaySeconds:0
+}),
+ computed: 
+{
+  _seconds: ()=> 1000,
+  _minutes() {
+    return this._seconds * 60;
+  },
+  _hours()
+  {
+    return this._minutes * 60;
+  },
+  _days()
+  {
+    return this._hours * 24;
   }
-}, methods: 
+
+},
+methods: 
 {
   getMsg(e)
   {
@@ -40,6 +58,37 @@ data(){
       console.log(this.msg)
       return this.msg
     }
+  },
+  dateBuilder()
+  {
+    const d = new Date();
+    let month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+     const currentMonth = month[d.getMonth()];
+    return `${currentMonth} ${d.getDate()}, ${d.getUTCFullYear()}`;
+  },
+  showRemaining()
+  {
+    
+    const timer = setInterval(()=>
+    {
+      const now = new Date();
+      const end = new Date(2021,1,1,0,0,0,1);
+      const distance = end.getTime() - now.getTime();
+      if (distance < 0)
+      {
+        clearInterval(timer);
+        return `WELCOME 2021`;
+      }
+        const days = Math.floor(distance / this._days);
+        const hours = Math.floor((distance % this._days) / this._hours);
+        const minutes = Math.floor((distance % this._hours)/this._minutes);
+        const seconds = Math.floor((distance % this._minutes)/this._seconds);
+        this.displayDays = days;
+        this.displayHours = hours;
+        this.displayMinutes = minutes;
+        this.displaySeconds = seconds;
+    },1000)
+    
   }
 }
 
