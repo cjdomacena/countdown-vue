@@ -3,20 +3,15 @@
   <div class="container">
       <div class="main-container">
         <div class="title">
-          <h1>XX Days Left Till 2021!!</h1>
-          <p>{{ displayDays }}: {{displayHours}} : {{displayMinutes}} : {{displaySeconds}}</p>
+          <h1>{{ displayDays }}  Days Left Till 2021!!</h1>
+          <p>{{displayHours}}hr : {{displayMinutes}}min : {{displaySeconds}}s {{showRemaining()}} </p>
           <p>{{dateBuilder()}} </p>
           </div>
           <div class="input-container">
             <h3>Enter your new year's resolution</h3>
             <input type="text"  placeholder="Type here." id="input-text" v-on:keypress ='getMsg' v-model="msg" >
           </div>
-          <div class="result-container">
-            <ul>
-              <li>{{ msg }}</li>
-              <li>Hydrate</li>
-            </ul>
-          </div>
+       
       </div>
   </div>
 </div>
@@ -51,14 +46,7 @@ data: ()=>({
 },
 methods: 
 {
-  getMsg(e)
-  {
-    if(e.key == 'Enter')
-    {
-      console.log(this.msg)
-      return this.msg
-    }
-  },
+
   dateBuilder()
   {
     const d = new Date();
@@ -72,14 +60,14 @@ methods:
     const timer = setInterval(()=>
     {
       const now = new Date();
-      const end = new Date(2021,1,1,0,0,0,1);
+      const end = new Date(2021, 1, 1, 0, 0, 0, 1);
       const distance = end.getTime() - now.getTime();
       if (distance < 0)
       {
         clearInterval(timer);
         return `WELCOME 2021`;
       }
-        const days = Math.floor(distance / this._days);
+        const days = 0;
         const hours = Math.floor((distance % this._days) / this._hours);
         const minutes = Math.floor((distance % this._hours)/this._minutes);
         const seconds = Math.floor((distance % this._minutes)/this._seconds);
